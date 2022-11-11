@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<infinispan xmlns="urn:infinispan:config:12.1">
+  <cache-container>
+    <replicated-cache name="session" statistics="true">
+      <locking concurrency-level="1000" acquire-timeout="15000" striping="false" />
+    </replicated-cache>
+  </cache-container>
+</infinispan>

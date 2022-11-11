@@ -1,0 +1,70 @@
+plugins {
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+}
+
+group = 'com.redhat.runtimes'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+def infinispanVersion = '13.0.10.Final-redhat-00001'
+def springBootVersion = '2.1.4.RELEASE-redhat-00001'
+def springSessionVersion = '1.2.2.RELEASE'
+
+repositories {
+  maven {
+    url 'https://maven.repository.redhat.com/ga/'
+  }
+	mavenCentral()
+}
+
+dependencies {
+  implementation ('org.springframework.boot:spring-boot-starter-actuator') {
+    version {
+      strictly springBootVersion
+    }
+  }
+  implementation ('org.springframework.boot:spring-boot-autoconfigure') {
+    version {
+      strictly springBootVersion
+    }
+  }
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	implementation 'org.springframework.boot:spring-boot-starter-validation'
+//  implementation ('org.springframework.session:spring-session') {
+//    version {
+//      strictly springSessionVersion
+//    }
+//  }
+  implementation('com.fasterxml.jackson.core:jackson-annotations:') {
+    version {
+      strictly '2.9.10.redhat-00005'
+    }
+  }
+//  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation('org.springframework.boot:spring-boot-starter-web')  {
+    version {
+      strictly springBootVersion
+    }
+  }/*{
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+  }*/
+//  implementation ('org.springframework.boot:spring-boot-starter-undertow')
+  implementation ('org.springframework.boot:spring-boot-starter-aop') {
+    version {
+      strictly springBootVersion
+    }
+  }
+  implementation ('org.infinispan:infinispan-spring-boot-starter-remote') {
+    version {
+      strictly infinispanVersion
+    }
+  }
+//	testImplementation "org.springframework.boot:spring-boot-starter-test"
+//	testImplementation "org.springframework.security:spring-security-test"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
