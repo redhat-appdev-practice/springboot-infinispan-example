@@ -32,12 +32,12 @@ public class HelloController {
 
   private static Integer readAndIncrementCount(HttpSession session) {
     Object sessionCount = session.getAttribute("count");
-    if (sessionCount != null && sessionCount instanceof Integer) {
+    if (sessionCount instanceof Integer) {
       Integer count = ((Integer)sessionCount) + 1;
       session.setAttribute("count", count);
-    } else {
-      session.setAttribute("count", Integer.valueOf(1));
+      return count;
     }
-    return (Integer) session.getAttribute("count");
+    session.setAttribute("count", 1);
+    return 1;
   }
 }

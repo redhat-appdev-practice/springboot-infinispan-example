@@ -1,9 +1,11 @@
 package com.redhat.runtimes.infinispan.example.aop;
 
-import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -13,19 +15,25 @@ import java.time.Instant;
 @Component
 public class InfinispanCutPoints {
 
-  private Logger logger = org.apache.logging.log4j.LogManager.getLogger(InfinispanCutPoints.class);
+  private static final Logger LOG = LoggerFactory.getLogger(InfinispanCutPoints.class);
 
-  @Around(value = "execution(* org.infinispan.spring.common.provider.SpringCache.*(..))")
-  public void timeCacheCalls(ProceedingJoinPoint joinPoint) throws Throwable {
+  @Pointcut(value = "execution(* org.infinispan.spring.remote.session.InfinispanRemoteSessionRepository.*(..)) ")
+  public void logInfinispanOperations() {
+
+  }
+
+  @Around(value = "logInfinispanOperations()")
+  public Object timeCacheCalls(ProceedingJoinPoint joinPoint) throws Throwable {
     String targetMethod = joinPoint.getSignature().getName();
 
     Instant startTime = Instant.now();
 
-    joinPoint.proceed();
+    Object retVal = joinPoint.proceed();
 
     Instant endTime = Instant.now();
 
     Duration duration = Duration.between(startTime, endTime);
-    logger.warn("Method {} took {}ns", targetMethod, duration.getNano());
+    LOG.warn("Method {} took {}ns", targetMethod, duration.getNano());
+    return retVal;
   }
 }
