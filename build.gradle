@@ -16,6 +16,7 @@ repositories {
   maven {
     url 'https://maven.repository.redhat.com/ga/'
   }
+//	mavenCentral()
 }
 
 dependencies {
