@@ -8,7 +8,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
 @EnableCaching
-@EnableInfinispanRemoteHttpSession
+@EnableInfinispanRemoteHttpSession(cacheName = "sessions")
 @EnableAspectJAutoProxy
 public class InfinispanExampleApplication {
 
