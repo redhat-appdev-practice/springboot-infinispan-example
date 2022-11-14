@@ -10,6 +10,7 @@ sourceCompatibility = '11'
 
 def infinispanVersion = '13.0.10.Final-redhat-00001'
 def springBootVersion = '2.1.4.RELEASE-redhat-00001'
+//def springSessionVersion = '1.2.2.RELEASE-redhat-1'
 def springSessionVersion = '2.5.2'
 
 repositories {

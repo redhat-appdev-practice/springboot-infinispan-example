@@ -16,13 +16,19 @@ import java.time.Instant;
 public class InfinispanCutPoints {
 
   private static final Logger LOG = LoggerFactory.getLogger(InfinispanCutPoints.class);
+  public static final int NANOS_TO_MICROS = 1000;
+  public static final int MICROS_TO_MILLIS = 1000;
 
-  @Pointcut(value = "execution(* org.infinispan.client.hotrod.impl.RemoteCacheSupport.*(..)) ")
+  @Pointcut(value = "execution(* org.infinispan.spring.remote.session.InfinispanRemoteSessionRepository.*(..)) ")
   public void logInfinispanOperations() {
 
   }
+  @Pointcut(value = "execution(* org.infinispan.spring.common.session.AbstractInfinispanSessionRepository.*(..)) ")
+  public void logInterfaceOerations() {
 
-  @Around(value = "logInfinispanOperations()")
+  }
+
+  @Around(value = "logInfinispanOperations() || logInterfaceOerations()")
   public Object timeCacheCalls(ProceedingJoinPoint joinPoint) throws Throwable {
     String targetMethod = joinPoint.getSignature().getName();
 
@@ -33,7 +39,7 @@ public class InfinispanCutPoints {
     Instant endTime = Instant.now();
 
     Duration duration = Duration.between(startTime, endTime);
-    LOG.warn("Method {} took {}ns", targetMethod, duration.getNano());
+    LOG.warn("Method {} took {}ms", targetMethod, duration.getNano()/ NANOS_TO_MICROS / MICROS_TO_MILLIS);
     return retVal;
   }
 }
