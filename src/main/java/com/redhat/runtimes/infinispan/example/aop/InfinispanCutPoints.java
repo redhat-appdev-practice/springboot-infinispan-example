@@ -39,7 +39,7 @@ public class InfinispanCutPoints {
     Instant endTime = Instant.now();
 
     Duration duration = Duration.between(startTime, endTime);
-    LOG.warn("Method {} took {}ms", targetMethod, duration.getNano()/ NANOS_TO_MICROS / MICROS_TO_MILLIS);
+    LOG.warn("Method {} with args {} took {}ms", targetMethod, joinPoint.getArgs(), duration.getNano() / NANOS_TO_MICROS / MICROS_TO_MILLIS);
     return retVal;
   }
 }

@@ -1,5 +1,4 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.5'
 //	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
 }
@@ -8,10 +7,10 @@ group = 'com.redhat.runtimes'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-def infinispanVersion = '13.0.10.Final-redhat-00001'
-def springBootVersion = '2.1.4.RELEASE-redhat-00001'
+//def infinispanVersion = '13.0.10.Final-redhat-00001'
+//def springBootVersion = '2.5.12'
 //def springSessionVersion = '1.2.2.RELEASE-redhat-1'
-def springSessionVersion = '2.5.2'
+//def springSessionVersion = '2.5.2'
 
 repositories {
   maven {
@@ -21,60 +20,17 @@ repositories {
 }
 
 dependencies {
-  implementation ('org.springframework.boot:spring-boot-starter-actuator') {
-    version {
-      strictly springBootVersion
-    }
-    exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
-    exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
-    transitive = true
-  }
-  implementation ('org.springframework.boot:spring-boot-autoconfigure') {
-    version {
-      strictly springBootVersion
-    }
-    transitive = true
-  }
-//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'org.springframework.boot:spring-boot-starter-validation'
-  implementation ('org.springframework.session:spring-session-core') {
-    version {
-      strictly springSessionVersion
-    }
-  }
-  implementation('com.fasterxml.jackson.core:jackson-annotations:') {
-    version {
-      strictly '2.9.10.redhat-00005'
-    }
-    transitive = true
-  }
-//  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation('org.springframework.boot:spring-boot-starter-web')  {
-    version {
-      strictly springBootVersion
-    }
-    transitive = true
-  }/*{
-    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-  }*/
-//  implementation ('org.springframework.boot:spring-boot-starter-undertow')
-  implementation ('org.springframework.boot:spring-boot-starter-aop') {
-    version {
-      strictly springBootVersion
-    }
-    transitive = true
-  }
-  implementation ('org.infinispan:infinispan-spring-boot-starter-remote') {
-    version {
-      strictly infinispanVersion
-    }
-    transitive = true
-  }
+  implementation enforcedPlatform('dev.snowdrop:snowdrop-dependencies:2.5.12.Final-redhat-00001')
+  implementation ('org.springframework.boot:spring-boot-starter-actuator')
+  implementation ('org.springframework.boot:spring-boot-autoconfigure')
+  implementation ('org.springframework.session:spring-session-core')
+  implementation('com.fasterxml.jackson.core:jackson-annotations:')
+  implementation('org.springframework.boot:spring-boot-starter-web')
+  implementation ('org.springframework.boot:spring-boot-starter-aop')
+  implementation ('org.infinispan:infinispan-spring-boot-starter-remote')
   implementation('ch.qos.logback:logback-core:1.2.5')
   implementation('org.slf4j:slf4j-api:1.7.36')
-//	testImplementation "org.springframework.boot:spring-boot-starter-test"
-//	testImplementation "org.springframework.security:spring-security-test"
+  testImplementation('org.junit.jupiter:junit-jupiter:5.9.0')
 }
 
 tasks.named('test') {
