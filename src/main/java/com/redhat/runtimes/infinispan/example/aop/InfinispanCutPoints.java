@@ -17,7 +17,7 @@ public class InfinispanCutPoints {
 
   private static final Logger LOG = LoggerFactory.getLogger(InfinispanCutPoints.class);
 
-  @Pointcut(value = "execution(* org.infinispan.spring.remote.session.InfinispanRemoteSessionRepository.*(..)) ")
+  @Pointcut(value = "execution(* org.infinispan.client.hotrod.impl.RemoteCacheSupport.*(..)) ")
   public void logInfinispanOperations() {
 
   }

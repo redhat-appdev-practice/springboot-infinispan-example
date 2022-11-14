@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration name="ConfigTest" status="INFO" monitorInterval="5">
+  <Appenders>
+
+    <SystemPropertyArbiter propertyName="env" propertyValue="dev">
+      <Console name="Out">
+        <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+      </Console>
+    </SystemPropertyArbiter>
+    <SystemPropertyArbiter propertyName="env" propertyValue="prod">
+      <List name="Out">
+      </List>
+    </SystemPropertyArbiter>
+
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Out"/>
+    </Root>
+  </Loggers>
+</Configuration>
