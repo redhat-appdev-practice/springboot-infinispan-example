@@ -26,7 +26,7 @@ public class InfinispanConfiguration {
       }
 
       b.remoteCache("sessions").configurationURI(uri);
-      // Use protostream marshaller to serialize the sessions with Protobuf
+      // Use Java marshaller to serialize the sessions with Protobuf
       b.remoteCache("sessions").marshaller(JavaSerializationMarshaller.class);
     };
   }
