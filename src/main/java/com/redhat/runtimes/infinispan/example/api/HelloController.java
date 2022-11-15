@@ -1,38 +1,50 @@
 package com.redhat.runtimes.infinispan.example.api;
 
-import com.github.javafaker.Faker;
 import com.redhat.runtimes.infinispan.example.models.Account;
 import com.redhat.runtimes.infinispan.example.models.Address;
 import com.redhat.runtimes.infinispan.example.models.CreditCard;
 import com.redhat.runtimes.infinispan.example.models.SessionInfo;
+import org.instancio.Instancio;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.time.Instant;
 
 @RestController
 @SessionAttributes("greetings")
 public class HelloController {
+  private static final Logger LOG = LoggerFactory.getLogger(HelloController.class);
 
-  private final Faker faker = new Faker();
+  private static final int NANOS_TO_MICROS = 1000;
 
-  private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+  private void addFakedObjects(SessionInfo sessionInfo) {
+    Instant startTime = Instant.now();
+    Account acct = Instancio.create(Account.class);
+    sessionInfo.setAccount(acct);
+    Address addr = Instancio.create(Address.class);
+    sessionInfo.setAddress(addr);
+    CreditCard card = Instancio.create(CreditCard.class);
+    sessionInfo.setCreditCard(card);
+    Instant endTime = Instant.now();
+    int duration = Duration.between(startTime, endTime).getNano() / NANOS_TO_MICROS;
+    LOG.info("Fake data generated in {}μs", duration);
+  }
 
   @GetMapping("/hello")
   public String hello(HttpSession session) {
-    Long count = readAndIncrementCount(session);
+    readAndIncrementCount(session);
     return "Hello SpringBoot!";
   }
 
   @GetMapping("/hello/{name}")
   public String greetWithName(@PathVariable String name, HttpSession session) {
-    Long count = readAndIncrementCount(session);
+    readAndIncrementCount(session);
     Object sessObj = session.getAttribute("state");
     SessionInfo sessionInfo;
     if (sessObj instanceof SessionInfo) {
@@ -45,26 +57,6 @@ public class HelloController {
     addFakedObjects(sessionInfo);
     session.setAttribute("state", sessionInfo);
     return String.format("Hello %s!", sessionInfo.getLastGreeting());
-  }
-
-  private void addFakedObjects(SessionInfo sessionInfo) {
-    Account acct = new Account();
-    acct.setAccountId(faker.idNumber().valid());
-    acct.setFirstName(faker.name().firstName());
-    sessionInfo.setAccount(acct);
-    Address addr = new Address();
-    addr.setCity(faker.address().city());
-    addr.setCountry(faker.address().country());
-    addr.setState(faker.address().state());
-    addr.setStreet1(faker.address().streetAddress(false));
-    addr.setZipCode(faker.address().zipCode());
-    sessionInfo.setAddress(addr);
-    CreditCard card = new CreditCard();
-    card.setCreditCardId(UUID.randomUUID().toString());
-    card.setNumber(faker.finance().creditCard());
-    Date expiration = faker.date().future(1825, TimeUnit.DAYS);
-    card.setExpiration(sdf.format(expiration));
-    sessionInfo.setCreditCard(card);
   }
 
   @GetMapping("/last")

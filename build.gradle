@@ -31,7 +31,7 @@ dependencies {
   implementation ('org.infinispan:infinispan-spring-boot-starter-remote')
   implementation('ch.qos.logback:logback-core')
   implementation('org.slf4j:slf4j-api')
-  implementation('com.github.javafaker:javafaker:1.0.2')
+  implementation('org.instancio:instancio-core:1.5.2')
   testImplementation('org.junit.jupiter:junit-jupiter:5.9.0')
   implementation("org.jvnet.jaxb2_commons:jaxb2-basics-runtime:1.11.1")
   xjcPlugins("org.jvnet.jaxb2_commons:jaxb2-basics:1.11.1")
