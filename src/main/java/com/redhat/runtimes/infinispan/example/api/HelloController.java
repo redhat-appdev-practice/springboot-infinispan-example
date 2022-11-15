@@ -2,6 +2,8 @@ package com.redhat.runtimes.infinispan.example.api;
 
 import com.github.javafaker.Faker;
 import com.redhat.runtimes.infinispan.example.models.Account;
+import com.redhat.runtimes.infinispan.example.models.Address;
+import com.redhat.runtimes.infinispan.example.models.CreditCard;
 import com.redhat.runtimes.infinispan.example.models.SessionInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,13 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @SessionAttributes("greetings")
 public class HelloController {
 
   private final Faker faker = new Faker();
+
+  private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
   @GetMapping("/hello")
   public String hello(HttpSession session) {
@@ -35,12 +42,29 @@ public class HelloController {
       sessionInfo = new SessionInfo();
       sessionInfo.setLastGreeting(name);
     }
+    addFakedObjects(sessionInfo);
+    session.setAttribute("state", sessionInfo);
+    return String.format("Hello %s!", sessionInfo.getLastGreeting());
+  }
+
+  private void addFakedObjects(SessionInfo sessionInfo) {
     Account acct = new Account();
     acct.setAccountId(faker.idNumber().valid());
     acct.setFirstName(faker.name().firstName());
     sessionInfo.setAccount(acct);
-    session.setAttribute("state", sessionInfo);
-    return String.format("Hello %s!", sessionInfo.getLastGreeting());
+    Address addr = new Address();
+    addr.setCity(faker.address().city());
+    addr.setCountry(faker.address().country());
+    addr.setState(faker.address().state());
+    addr.setStreet1(faker.address().streetAddress(false));
+    addr.setZipCode(faker.address().zipCode());
+    sessionInfo.setAddress(addr);
+    CreditCard card = new CreditCard();
+    card.setCreditCardId(UUID.randomUUID().toString());
+    card.setNumber(faker.finance().creditCard());
+    Date expiration = faker.date().future(1825, TimeUnit.DAYS);
+    card.setExpiration(sdf.format(expiration));
+    sessionInfo.setCreditCard(card);
   }
 
   @GetMapping("/last")
@@ -55,10 +79,7 @@ public class HelloController {
       sessionInfo = new SessionInfo();
       sessionInfo.incrementCount();
     }
-    Account acct = new Account();
-    acct.setAccountId(faker.idNumber().valid());
-    acct.setFirstName(faker.name().firstName());
-    sessionInfo.setAccount(acct);
+    addFakedObjects(sessionInfo);
     session.setAttribute("state", sessionInfo);
     return String.format("Hello %s! - count %d", sessionInfo.getLastGreeting(), sessionInfo.getCount());
 
