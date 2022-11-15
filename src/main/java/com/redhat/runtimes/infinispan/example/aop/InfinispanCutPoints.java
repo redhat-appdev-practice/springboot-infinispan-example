@@ -28,10 +28,10 @@ public class InfinispanCutPoints {
 
   }
 
-  @Pointcut(value = "execution(* com.redhat.runtimes.infinispan.example.api.HelloController.*(..))")
+/*  @Pointcut(value = "execution(* com.redhat.runtimes.infinispan.example.api.HelloController.*(..))")
   public void logRequestTime() {
 
-  }
+  }*/
 
   @Around(value = "logInfinispanOperations() || logInterfaceOerations()")
   public Object timeCacheCalls(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -44,11 +44,11 @@ public class InfinispanCutPoints {
     Instant endTime = Instant.now();
 
     Duration duration = Duration.between(startTime, endTime);
-    LOG.warn("Method {} with args {} took {}μs", targetMethod, joinPoint.getArgs(), duration.getNano() / NANOS_TO_MICROS);
+    LOG.info("Method {} with args {} took {}μs", targetMethod, joinPoint.getArgs(), duration.getNano() / NANOS_TO_MICROS);
     return retVal;
   }
 
-  @Around(value = "logRequestTime()")
+ /* @Around(value = "logRequestTime()")
   public Object timeRestCalls(ProceedingJoinPoint joinPoint) throws Throwable {
     Instant startTime = Instant.now();
 
@@ -59,5 +59,5 @@ public class InfinispanCutPoints {
     Duration duration = Duration.between(startTime, endTime);
     LOG.warn("API Call took {}μs", duration.getNano() / NANOS_TO_MICROS);
     return retVal;
-  }
+  }*/
 }

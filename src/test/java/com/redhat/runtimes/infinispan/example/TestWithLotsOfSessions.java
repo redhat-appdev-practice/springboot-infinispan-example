@@ -1,6 +1,7 @@
 package com.redhat.runtimes.infinispan.example;
 
 
+import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -52,15 +55,20 @@ public class TestWithLotsOfSessions {
     public void run() {
       super.run();
       try {
-        URI uri = new URI("http://localhost:8080/hello/Deven%20Phillips");
+        String name = Instancio.create(String.class);
+        URI uri = new URI("http://localhost:8080/hello/" + name);
         HttpRequest req = HttpRequest.newBuilder().GET().uri(uri).build();
         long pause = (long) Math.floor(50 * Math.random());
         while (true) {
           Thread.sleep(500 + pause);
 
+          Instant startTime = Instant.now();
           try {
             client.send(req, res -> {
               LOG.info("Status Code: {}", res.statusCode());
+              Instant endTime = Instant.now();
+              Duration duration = Duration.between(startTime, endTime);
+              LOG.info("Request duration: {}μs", duration.getNano() / 1000);
               return HttpResponse.BodySubscribers.discarding();
             });
           } catch (IOException e) {
