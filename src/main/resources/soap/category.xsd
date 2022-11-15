@@ -1,0 +1,66 @@
+<xs:schema xmlns:ns2="http://acme.com/services"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="unqualified"
+        targetNamespace="http://acme.com/services"
+        version="1.0">
+    <xs:element name="deleteCategory" type="ns2:deleteCategory"/>
+    <xs:element name="deleteCategoryResponse" type="ns2:deleteCategoryResponse"/>
+    <xs:element name="findAllCategories" type="ns2:findAllCategories"/>
+    <xs:element name="findAllCategoriesResponse" type="ns2:findAllCategoriesResponse"/>
+    <xs:element name="modifyCategory" type="ns2:modifyCategory"/>
+    <xs:element name="modifyCategoryResponse" type="ns2:modifyCategoryResponse"/>
+    <xs:element name="retrieveCategory" type="ns2:retrieveCategory"/>
+    <xs:element name="retrieveCategoryResponse" type="ns2:retrieveCategoryResponse"/>
+    <xs:complexType name="modifyCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="ns2:Category"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Category">
+        <xs:sequence>
+            <xs:element name="Id" type="xs:string"/>
+            <xs:element name="CategoryId" type="xs:string"/>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="modifyCategoryResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns2:Category"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="retrieveCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="retrieveCategoryResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="ns2:Category"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="findAllCategories">
+        <xs:sequence/>
+    </xs:complexType>
+    <xs:complexType name="findAllCategoriesResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="categories">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="category" type="ns2:Category"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteCategory">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="deleteCategoryResponse">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
