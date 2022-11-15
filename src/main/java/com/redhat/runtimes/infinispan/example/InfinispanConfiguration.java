@@ -1,6 +1,7 @@
 package com.redhat.runtimes.infinispan.example;
 
 import org.infinispan.commons.marshall.JavaSerializationMarshaller;
+import org.infinispan.commons.marshall.ProtoStreamMarshaller;
 import org.infinispan.spring.starter.remote.InfinispanRemoteCacheCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ public class InfinispanConfiguration {
 
       b.remoteCache("sessions").configurationURI(uri);
       // Use Java marshaller to serialize the sessions with Protobuf
-      b.remoteCache("sessions").marshaller(JavaSerializationMarshaller.class);
+      b.remoteCache("sessions").marshaller(ProtoStreamMarshaller.class);
     };
   }
 }
