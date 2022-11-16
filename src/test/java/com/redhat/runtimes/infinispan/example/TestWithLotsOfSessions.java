@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 public class TestWithLotsOfSessions {
 
   private static final Logger LOG = LoggerFactory.getLogger(TestWithLotsOfSessions.class);
-  public static final int NUM_THREADS = 100;
+  public static final int NUM_THREADS = 1;
 
 
   @Test
@@ -55,13 +55,13 @@ public class TestWithLotsOfSessions {
     public void run() {
       super.run();
       try {
-        String name = Instancio.create(String.class);
-        URI uri = new URI("http://localhost:8080/hello/" + name);
-        HttpRequest req = HttpRequest.newBuilder().GET().uri(uri).build();
         long pause = (long) Math.floor(50 * Math.random());
         while (true) {
           Thread.sleep(500 + pause);
 
+          String name = Instancio.create(String.class);
+          URI uri = new URI("http://localhost:8080/hello/" + name);
+          HttpRequest req = HttpRequest.newBuilder().GET().uri(uri).build();
           Instant startTime = Instant.now();
           try {
             client.send(req, res -> {

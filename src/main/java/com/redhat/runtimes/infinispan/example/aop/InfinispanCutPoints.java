@@ -21,11 +21,9 @@ public class InfinispanCutPoints {
 
   @Pointcut(value = "execution(* org.infinispan.spring.remote.session.InfinispanRemoteSessionRepository.*(..)) ")
   public void logInfinispanOperations() {
-
   }
   @Pointcut(value = "execution(* org.infinispan.spring.common.session.AbstractInfinispanSessionRepository.*(..)) ")
   public void logInterfaceOerations() {
-
   }
 
 /*  @Pointcut(value = "execution(* com.redhat.runtimes.infinispan.example.api.HelloController.*(..))")
@@ -48,7 +46,7 @@ public class InfinispanCutPoints {
     return retVal;
   }
 
- /* @Around(value = "logRequestTime()")
+/*  @Around(value = "logSessionFilter()")
   public Object timeRestCalls(ProceedingJoinPoint joinPoint) throws Throwable {
     Instant startTime = Instant.now();
 
@@ -57,7 +55,7 @@ public class InfinispanCutPoints {
     Instant endTime = Instant.now();
 
     Duration duration = Duration.between(startTime, endTime);
-    LOG.warn("API Call took {}μs", duration.getNano() / NANOS_TO_MICROS);
+    LOG.warn("Method {} took {}μs", joinPoint.getSignature().getName(), duration.getNano() / NANOS_TO_MICROS);
     return retVal;
   }*/
 }
