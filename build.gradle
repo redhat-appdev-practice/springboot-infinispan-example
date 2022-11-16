@@ -19,16 +19,16 @@ dependencies {
   def springBootVersion = '2.5.12.Final-redhat-00001'
   implementation enforcedPlatform('dev.snowdrop:snowdrop-dependencies:' + springBootVersion)
   implementation enforcedPlatform('org.infinispan:infinispan-bom:' + infinispanVersion)
-  implementation ('org.springframework.boot:spring-boot-starter-actuator')
-  implementation ('org.springframework.boot:spring-boot-autoconfigure')
-  implementation ('org.springframework.session:spring-session-core')
-  implementation('com.fasterxml.jackson.core:jackson-annotations:')
+//  implementation ('org.springframework.boot:spring-boot-starter-actuator')
+//  implementation ('org.springframework.boot:spring-boot-autoconfigure')
+//  implementation ('org.springframework.session:spring-session-core')
+  implementation('com.fasterxml.jackson.core:jackson-annotations')
   implementation('org.springframework.boot:spring-boot-starter-undertow')
   implementation('org.springframework.boot:spring-boot-starter-web') {
     exclude (group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat')
   }
   implementation ('org.springframework.boot:spring-boot-starter-aop')
-  implementation ('org.infinispan:infinispan-spring-boot-starter-remote')
+  implementation ('org.wildfly.clustering:wildfly-clustering-spring-session-hotrod:7.0.0.Final')
   implementation('ch.qos.logback:logback-core')
   implementation('org.slf4j:slf4j-api')
   implementation('org.instancio:instancio-core:1.5.2')
