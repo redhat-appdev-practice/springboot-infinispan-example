@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 public class TestWithLotsOfSessions {
 
   private static final Logger LOG = LoggerFactory.getLogger(TestWithLotsOfSessions.class);
-  public static final int NUM_THREADS = 1;
+  public static final int NUM_THREADS = 100;
 
 
   @Test

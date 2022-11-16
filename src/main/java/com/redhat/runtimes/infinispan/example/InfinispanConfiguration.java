@@ -21,7 +21,7 @@ public class InfinispanConfiguration {
       URI uri;
       try {
         uri = this.getClass().getClassLoader().getResource("remote-cache-all.xml").toURI();
-      } catch (URISyntaxException e) {
+      } catch (URISyntaxException | NullPointerException e) {
         throw new RuntimeException(e);
       }
 
