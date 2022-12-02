@@ -1,3 +1,6 @@
-<distributed-cache name="session" statistics="true">
+<distributed-cache name="session" statistics="true" mode="SYNC">
   <locking concurrency-level="1000" acquire-timeout="15000" striping="false" />
+  <expiration lifespan="7200000" max-idle="7200000" />
+  <memory max-size="13GB" when-full="MANUAL" />
+  <encoding media-type="application/x-protostream" />
 </distributed-cache>
