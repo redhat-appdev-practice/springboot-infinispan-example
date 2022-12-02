@@ -1,5 +1,6 @@
 plugins {
-	id 'java'
+  id 'java'
+  id 'org.springframework.boot' version '2.7.5'
   id("com.github.bjornvester.wsdl2java") version "1.2"
 }
 
@@ -51,3 +52,14 @@ wsdl2java {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.named("bootJar") {
+	archiveClassifier = 'boot'
+	mainClass = 'com.redhat.runtimes.infinispan.example.InfinispanExampleApplication'
+}
+
+tasks.named("jar") {
+	archiveClassifier = 'boot'
+}
+
+
